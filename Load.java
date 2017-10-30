@@ -125,7 +125,6 @@ public class Load {
 					if ((currentTime % segmentInterval) == 0) {
 						// Sleep for (segmentInterval)*(1 - load) milliseconds.
 						long sleepFor = (long) Math.floor(segmentInterval * (1 - this.load));
-						System.out.println("Sleeping for " + sleepFor + " milliseconds...");
 						Thread.sleep(sleepFor);
 					}
 					
