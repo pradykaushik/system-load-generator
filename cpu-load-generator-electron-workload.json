@@ -1,0 +1,130 @@
+[
+	{
+		"name": "cpu-load-generator",
+		"cpu": 3.0,
+	       	"ram": 4096,
+		"watts": 50.0,
+		"class_to_watts": {
+			"A": 50.0,
+			"B": 50.0,
+			"C": 50.0,
+			"D": 50.0
+		},
+		"image": "pkaushi1/cpu-load-generator:latest",
+		"cmd": "java SimulateConstIncreaseCPULoad 1",
+		"host": "stratos001.cs.binghamton.edu",
+		"inst": 1
+	},
+	{
+		"name": "cpu-load-generator",
+		"cpu": 3.0,
+	       	"ram": 4096,
+		"watts": 50.0,
+		"class_to_watts": {
+			"A": 50.0,
+			"B": 50.0,
+			"C": 50.0,
+			"D": 50.0
+		},
+		"image": "pkaushi1/cpu-load-generator:latest",
+		"cmd": "java SimulateConstIncreaseCPULoad 1",
+		"host": "stratos002.cs.binghamton.edu",
+		"inst": 1
+	},
+	{
+		"name": "cpu-load-generator",
+		"cpu": 3.0,
+	       	"ram": 4096,
+		"watts": 50.0,
+		"class_to_watts": {
+			"A": 50.0,
+			"B": 50.0,
+			"C": 50.0,
+			"D": 50.0
+		},
+		"image": "pkaushi1/cpu-load-generator:latest",
+		"cmd": "java SimulateConstIncreaseCPULoad 1",
+		"host": "stratos003.cs.binghamton.edu",
+		"inst": 1
+	},
+	{
+		"name": "cpu-load-generator",
+		"cpu": 3.0,
+	       	"ram": 4096,
+		"watts": 50.0,
+		"class_to_watts": {
+			"A": 50.0,
+			"B": 50.0,
+			"C": 50.0,
+			"D": 50.0
+		},
+		"image": "pkaushi1/cpu-load-generator:latest",
+		"cmd": "java SimulateConstIncreaseCPULoad 1",
+		"host": "stratos004.cs.binghamton.edu",
+		"inst": 1
+	},
+	{
+		"name": "cpu-load-generator",
+		"cpu": 3.0,
+	       	"ram": 4096,
+		"watts": 50.0,
+		"class_to_watts": {
+			"A": 50.0,
+			"B": 50.0,
+			"C": 50.0,
+			"D": 50.0
+		},
+		"image": "pkaushi1/cpu-load-generator:latest",
+		"cmd": "java SimulateConstIncreaseCPULoad 1",
+		"host": "stratos005.cs.binghamton.edu",
+		"inst": 1
+	},
+	{
+		"name": "cpu-load-generator",
+		"cpu": 3.0,
+	       	"ram": 4096,
+		"watts": 50.0,
+		"class_to_watts": {
+			"A": 50.0,
+			"B": 50.0,
+			"C": 50.0,
+			"D": 50.0
+		},
+		"image": "pkaushi1/cpu-load-generator:latest",
+		"cmd": "java SimulateConstIncreaseCPULoad 1",
+		"host": "stratos006.cs.binghamton.edu",
+		"inst": 1
+	},
+	{
+		"name": "cpu-load-generator",
+		"cpu": 3.0,
+	       	"ram": 4096,
+		"watts": 50.0,
+		"class_to_watts": {
+			"A": 50.0,
+			"B": 50.0,
+			"C": 50.0,
+			"D": 50.0
+		},
+		"image": "pkaushi1/cpu-load-generator:latest",
+		"cmd": "java SimulateConstIncreaseCPULoad 1",
+		"host": "stratos007.cs.binghamton.edu",
+		"inst": 1
+	},
+	{
+		"name": "cpu-load-generator",
+		"cpu": 3.0,
+	       	"ram": 4096,
+		"watts": 50.0,
+		"class_to_watts": {
+			"A": 50.0,
+			"B": 50.0,
+			"C": 50.0,
+			"D": 50.0
+		},
+		"image": "pkaushi1/cpu-load-generator:latest",
+		"cmd": "java SimulateConstIncreaseCPULoad 1",
+		"host": "stratos008.cs.binghamton.edu",
+		"inst": 1
+	}
+]
