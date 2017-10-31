@@ -30,7 +30,7 @@ Use the dockerized application and run any one of the above commands,
 ```commandline
 docker run pkaushi1/cpu-load-generator:v2 <command>
 ```
-_Note_: The above commands are also present in the Dockerfile. One could uncomment the required command, rebuild the docker image and then just run
+_Note:_ The above commands are also present in the Dockerfile. One could uncomment the required command, rebuild the docker image and then just run
 ```commandline
 docker run <imagetag>
 ```
