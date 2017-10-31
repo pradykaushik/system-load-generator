@@ -72,11 +72,13 @@ public class Load {
 			long startTime = System.currentTimeMillis();
 			try {
 				// Loop for the given duration
-				while ((System.currentTimeMillis() - startTime) < duration) {
+				long currentTime = System.currentTimeMillis();
+				while ((currentTime - startTime) < duration) {
 					// Every 100ms, sleep for the percentage of unladen time
 					if ((System.currentTimeMillis() % 100) == 0) {
 						Thread.sleep((long) Math.floor((1 - load) * 100));
 					}
+					currentTime = System.currentTimeMillis();
 				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -127,7 +129,7 @@ public class Load {
 						long sleepFor = (long) Math.floor(segmentInterval * (1 - this.load));
 						Thread.sleep(sleepFor);
 					}
-					
+					currentTime = System.currentTimeMillis();
 				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
