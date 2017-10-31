@@ -75,7 +75,7 @@ public class Load {
 				long currentTime = System.currentTimeMillis();
 				while ((currentTime - startTime) < duration) {
 					// Every 100ms, sleep for the percentage of unladen time
-					if ((System.currentTimeMillis() % 100) == 0) {
+					if ((currentTime % 100) == 0) {
 						Thread.sleep((long) Math.floor((1 - load) * 100));
 					}
 					currentTime = System.currentTimeMillis();
