@@ -6,7 +6,7 @@ public class SimulateConstIncreaseCPULoad {
 	private static final double DEFAULT_STEP_SIZE = 0.1;
 	// Setting default duration for the load to be 2sec.
 	// This is because PCP data is retrieved every second and we want the PCP data to record the change in load.
-	private static final int DEFAULT_DURATION = 2000;
+	private static final int DEFAULT_DURATION = 4000;
 	// Default number of segments for creating alternating CPU load.
 	private static final int DEFAULT_ALT_SEGMENTS = 2;
 	private static ProcessorArchInfo processorArchInfo = null;
