@@ -36,6 +36,16 @@ COPY . /
 RUN javac SimulateConstIncreaseCPULoad.java
 
 # Generate CPU load with step size 1%.
+# Please note that this is a default run command.
+# Further command line arguments can be given.
 CMD java SimulateConstIncreaseCPULoad 0.01
 
+# Generate CPU load and maintain the CPU load for the given duration (milliseconds).
+# CMD java SimulateConstIncreaseCPULoad 0.01 4000
+
+# Generate alternating CPU load, maintain it for a given duration. Using the default number of segments (2).
+# CMD java SimulateConstIncreaseCPULoad 0.01 4000 true
+
+# Generate alternating CPU load, maintain it for a given duration, and specify the number of segments.
+# CMD java SimulateConstIncreaseCPULoad 0.01 4000 true 4
 

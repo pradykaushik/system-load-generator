@@ -6,7 +6,9 @@ public class SimulateConstIncreaseCPULoad {
 	private static final double DEFAULT_STEP_SIZE = 0.1;
 	// Setting default duration for the load to be 2sec.
 	// This is because PCP data is retrieved every second and we want the PCP data to record the change in load.
-	private static final int DEFAULT_DURATION = 2000;
+	private static final int DEFAULT_DURATION = 4000;
+	// Default number of segments for creating alternating CPU load.
+	private static final int DEFAULT_ALT_SEGMENTS = 2;
 	private static ProcessorArchInfo processorArchInfo = null;
 	static {
 		// Retrieving the processor architecture information
@@ -21,34 +23,56 @@ public class SimulateConstIncreaseCPULoad {
 	}
 
 	/**
-	 * @param args Command line arguments. 'stepSize' specifying the % increase in CPU load for each load change, 
-	 * 	'duration' specifying the time duration for which the particular CPU load needs to be maintained.
+	 * @param args Command line arguments. 'stepSize' specifying the % increase in CPU load for each load change 
+	 * 	'duration' specifying the time duration for which the particular CPU load needs to be maintained
+	 * 	'isAlt' boolean value specifying whether we need to create alternating load or not.
 	 */
 	public static void main(String[] args) throws Exception {
 		// Checking whether the step size has been provided from the command line.
 		// If not, then using the default step size (0.1)
+		double stepSize = 0.0;
+		int duration = 0;
 		if (args.length == 0) {
-			generateLoad(DEFAULT_STEP_SIZE, DEFAULT_DURATION);
+			generateLoad(DEFAULT_STEP_SIZE, DEFAULT_DURATION, false, 0);
 		} else if (args.length == 1){
-			double stepSize = Double.parseDouble(args[0]);
-			generateLoad(stepSize, DEFAULT_DURATION);
+			stepSize = Double.parseDouble(args[0]);
+			generateLoad(stepSize, DEFAULT_DURATION, false, 0);
 		} else if (args.length == 2) {
 			// The stepSize has to be given as decimals, indicating the load percentage.
-			double stepSize = Double.parseDouble(args[0]);
+			stepSize = Double.parseDouble(args[0]);
 			// The duration has to be given in milliseconds.
-			int duration = Integer.parseInt(args[1]);
-			generateLoad(stepSize, duration);
+			duration = Integer.parseInt(args[1]);
+			generateLoad(stepSize, duration, false, 0);
+		} else if (args.length == 3) {
+			// the third argument would be used to determine whether we need to create an alternating
+			// load or not.
+			stepSize = Double.parseDouble(args[0]);
+			duration = Integer.parseInt(args[1]);
+			boolean	isAlt = Boolean.valueOf(args[2]);
+			generateLoad(stepSize, duration, isAlt, DEFAULT_ALT_SEGMENTS);
+		} else if (args.length == 4) {
+			stepSize = Double.parseDouble(args[0]);
+			duration = Integer.parseInt(args[1]);
+			boolean isAlt = Boolean.valueOf(args[2]);
+			int segments = Integer.parseInt(args[3]);
+			generateLoad(stepSize, duration, isAlt, segments);
 		}
 	}
 
 	// Constantly increase the CPU load in steps = stepSize.
 	// The CPU load is going to be simulated for the specified duration.
-	private static void generateLoad(double stepSize, int duration) {
+	private static void generateLoad(double stepSize, int duration, boolean isAlt, int segments) {
 		// Time for each a particular CPU load needs to be maintained for.
 		long currentTime = System.currentTimeMillis();
 		for (double load = stepSize; load <= 1.0; load += stepSize) {
 			System.err.println("CPU load changing to " + load);
-			Load.createLoad(processorArchInfo.getNumCores(), processorArchInfo.getNumThreadsPerCore(), load, duration);
+			// We're creating an alternating CPU load.
+			Load.createLoad(processorArchInfo.getNumCores(), 
+					processorArchInfo.getNumThreadsPerCore(), 
+					load, 
+					duration, 
+					isAlt,
+					segments);
 			// Changing load only every <duration>/1000 seconds. If <duration>/1000 seconds has not elapsed, then we wait.
 			try {
 				Thread.sleep(duration);
