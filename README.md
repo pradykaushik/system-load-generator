@@ -1,6 +1,7 @@
 # CPU Load Generator
 
 A CPU Load generator that constantly increases the CPU utilization of a machine from 1% to 100%.
+Forked from [SriramKeerthi-Gist](https://gist.github.com/SriramKeerthi/0f1513a62b3b09fecaeb) and added functionality.
 
 ##Instructions to execute the program
 Four _command-line_ arguments can be specified.
