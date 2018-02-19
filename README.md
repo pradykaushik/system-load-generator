@@ -3,7 +3,7 @@
 A CPU Load generator that constantly increases the CPU utilization of a machine from 1% to 100%.
 Forked from [SriramKeerthi-Gist](https://gist.github.com/SriramKeerthi/0f1513a62b3b09fecaeb) and added functionality.
 
-##Instructions to execute the program
+## Instructions to execute the program
 Four _command-line_ arguments can be specified.
 
 * **stepSize** - TYPE: _decimal_ value in the range (0.0, 1.0). This specifies the increase in CPU load for every cycle.
@@ -27,7 +27,7 @@ Run the following command to generate an alternating CPU load with a **stepSize*
 java SimulateConstIncreaseCPULoad 0.01 4000 true 2
 ```
 
-##Using the dockerized application
+## Using the dockerized application
 Use the dockerized application and run any one of the above commands,
 ```commandline
 docker run pkaushi1/cpu-load-generator:v2 <command>
