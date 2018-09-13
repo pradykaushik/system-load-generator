@@ -49,8 +49,8 @@ A 1 minute load average generator that constantly increases the load average for
 ## Instructions to execute the program
 Two _command-line_ arguments can be specified.
 
-* **START\\_LOAD\\_AVERAGE\\_CORE** - TYPE: _decimal_ (default = 1/numCores). This specifies the starting value of 1min load average for a given core. This value signifies the number of processes that would be executed in the first minute.
-* **STEP\\_SIZE** - TYPE: _decimal_ (default = 0.2). This specifies the increase in load average that is to be generated every minute. 
+* **START\_LOAD\_AVERAGE\_CORE** - TYPE: _decimal_ (default = 1/numCores). This specifies the starting value of 1min load average for a given core. This value signifies the number of processes that would be executed in the first minute.
+* **STEP\_SIZE** - TYPE: _decimal_ (default = 0.2). This specifies the increase in load average that is to be generated every minute. 
 
 
 Run the following command to compile.
