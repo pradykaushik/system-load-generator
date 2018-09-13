@@ -67,7 +67,7 @@ public class SimulateConstIncreaseCPULoad {
 		for (double load = stepSize; load <= 1.0; load += stepSize) {
 			System.err.println("CPU load changing to " + load);
 			// We're creating an alternating CPU load.
-			Load.createLoad(processorArchInfo.getNumCores(), 
+			CPULoad.createLoad(processorArchInfo.getNumCores(), 
 					processorArchInfo.getNumThreadsPerCore(), 
 					load, 
 					duration, 
