@@ -3,7 +3,7 @@
  * @author Sriram
  * @author Pradyumna Kaushik
  */
-public class Load {
+public class CPULoad {
 	/**
 	 * Starts the Load Generation
 	 * @param args Command line arguments, ignored
