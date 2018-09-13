@@ -12,6 +12,11 @@ Four _command-line_ arguments can be specified.
 * **segments** - TYPE: _number_. This specifies the number of times the CPU usage alternates, when **isAlt** is set to true. Suppose, the time slice is 100ms, and **segments** = 2, then to generate a CPU load of 50%, the thread would sleep twice for 25ms, once every 50ms.
 
 
+Run the following command to compile.
+```commandline
+javac SimulateConstIncreaseCPULoad.java
+```
+
 Run the following command to generate a non-alternating CPU load using default **stepSize** and default **duration**.
 ```commandline
 java SimulateConstIncreaseCPULoad
@@ -35,4 +40,35 @@ docker run pkaushi1/cpu-load-generator:v2 <command>
 _Note:_ The above commands are also present in the Dockerfile. One could uncomment the required command, rebuild the docker image and then just run
 ```commandline
 docker run <imagetag>
+```
+
+# Load Average Generator
+
+A 1 minute load average generator that constantly increases the load average for the past minute.
+
+## Instructions to execute the program
+Two _command-line_ arguments can be specified.
+
+* **START\\_LOAD\\_AVERAGE\\_CORE** - TYPE: _decimal_ (default = 1/numCores). This specifies the starting value of 1min load average for a given core. This value signifies the number of processes that would be executed in the first minute.
+* **STEP\\_SIZE** - TYPE: _decimal_ (default = 0.2). This specifies the increase in load average that is to be generated every minute. 
+
+
+Run the following command to compile.
+```commandline
+javac SimulateConstIncreaseLoadAverage.java
+```
+
+Run the following command to run the load average generator using the default values for START\_LOAD\_AVERAGE and STEP\_SIZE.
+```commandline
+java SimulateConstIncreaseLoadAverage
+```
+
+## Using the dockerized application
+Use the dockerized application and run any one of the above commands,
+```commandline
+docker run pkaushi1/cpu-loadavg-generator:latest <command>
+```
+_Note:_ The above command is also set as the command to execute when the container is launched. So, one could just type the below command to run the load average generator.
+```commandline
+docker run pkaushi1/cpu-loadavg-generator:latest
 ```
