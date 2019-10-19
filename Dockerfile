@@ -12,6 +12,9 @@ COPY . /
 # Compiling the source files for SimulateConstIncreaseLoadAverage.
 # RUN javac SimulateConstIncreaseLoadAverage.java
 
+# Compiling the source files for SimulateCPULoadWithMemoryPressure.
+# RUN javac SimulateCPULoadWithMemoryPressure.java
+
 # Generate CPU load with step size 1%.
 # Please note that this is a default run command.
 # Further command line arguments can be given.
@@ -28,3 +31,6 @@ COPY . /
 
 # Generate Load Average with LOAD_AVERAGE_LIMIT_CORE = 10.0 and STEP_SIZE = 0.2.
 # CMD java SimulateConstIncreaseLoadAverage
+
+# Generate CPU Load with Memory Pressure with CPU load in range [60,80]% and RAM usage as 4096 bytes.
+# CMD java SimulateCPULoadWithMemoryPressure 60 80 4096
