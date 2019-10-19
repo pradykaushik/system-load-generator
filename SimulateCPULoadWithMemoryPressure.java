@@ -26,7 +26,7 @@ import java.util.Random;
 /**
  * Generates CPU and memory pressure
  */
-public class SystemLoad {
+public class SimulateCPULoadWithMemoryPressure {
 
 	public static void main(String[] args) {
 		try {
@@ -46,8 +46,8 @@ public class SystemLoad {
 			System.out.println("Failed to start!" + e.getMessage());
 			e.printStackTrace();
 			System.out.println("Usage: ");
-			System.out.println("javac SystemLoad.java");
-			System.out.println("java SystemLoad [min-cpu-usage-pressure] [max-cpu-usage-pressure] [memory-bytes-pressure]");
+			System.out.println("javac CPULoadWithMemoryPressure.java");
+			System.out.println("java CPULoadWithMemoryPressure [min-cpu-usage-pressure] [max-cpu-usage-pressure] [memory-bytes-pressure]");
 		}
 	}
 
@@ -79,7 +79,8 @@ public class SystemLoad {
 			final int cpuPressureRange = maxCpuLoadPercentage - minCpuLoadPercentage;
 
 			try {
-				System.out.println(String.format(Locale.US, "Thread %s starting with CPU pressure [%d-%d] and %d bytes", getName(), minCpuLoadPercentage, maxCpuLoadPercentage, memory.length));
+				System.out.println(String.format(Locale.US, "Thread %s starting with CPU pressure [%d-%d] and %d bytes",
+					getName(), minCpuLoadPercentage, maxCpuLoadPercentage, memory.length));
 				Thread.sleep(cpuPressureRange);
 
 				while(true) {
