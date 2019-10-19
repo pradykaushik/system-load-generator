@@ -2,16 +2,8 @@
 	{
 		"name": "cpu-load-generator",
 		"cpu": 3.0,
-	       	"ram": 4096,
-		"watts": 50.0,
-		"class_to_watts": {
-			"A": 50.0,
-			"B": 50.0,
-			"C": 50.0,
-			"D": 50.0
-		},
+	  "ram": 4096,
 		"image": "pkaushi1/cpu-load-generator:v2",
 		"cmd": "java SimulateConstIncreaseCPULoad 0.01 4000 true 2",
-		"inst": 8
 	}
 ]

@@ -2,16 +2,8 @@
 	{
 		"name": "cpu-loadAvg-generator",
 		"cpu": 3.0,
-	       	"ram": 4096,
-		"watts": 50.0,
-		"class_to_watts": {
-			"A": 50.0,
-			"B": 50.0,
-			"C": 50.0,
-			"D": 50.0
-		},
+		"ram": 4096,
 		"image": "pkaushi1/cpu-loadavg-generator:latest",
 		"cmd": "java SimulateConstIncreaseLoadAverage",
-		"inst": 8
 	}
 ]
