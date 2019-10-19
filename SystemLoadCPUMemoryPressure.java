@@ -27,15 +27,16 @@ import java.util.Random;
  * Generates CPU and memory pressure
  */
 public class SystemLoad {
-	
+
 	public static void main(String[] args) {
 		try {
-			int numCore = Integer.parseInt(args[0]);
-			int numThreadsPerCore = Integer.parseInt(args[1]);
-			int minCpuLoadPercentage = Integer.parseInt(args[2]);
-			int maxCpuLoadPercentage = Integer.parseInt(args[3]);
-			int ramUsageBytes = Integer.parseInt(args[4]);
-			
+			ProcessorArchInfo procArchInfo = ProcessorArch.getProcessorArchInformation();
+			int numCore = procArchInfo.getNumCores();
+			int numThreadsPerCore = procArchInfo.getNumThreadsPerCore();
+			int minCpuLoadPercentage = Integer.parseInt(args[0]);
+			int maxCpuLoadPercentage = Integer.parseInt(args[1]);
+			int ramUsageBytes = Integer.parseInt(args[2]);
+
 			int threadsToCreate = numCore * numThreadsPerCore;
 			for (int thread = 0; thread < threadsToCreate; thread++) {
 				byte[] memory = new byte[ramUsageBytes / threadsToCreate];
@@ -46,7 +47,7 @@ public class SystemLoad {
 			e.printStackTrace();
 			System.out.println("Usage: ");
 			System.out.println("javac SystemLoad.java");
-			System.out.println("java SystemLoad [num-of-cores] [num-of-threads-per-core] [min-cpu-usage-pressure] [max-cpu-usage-pressure] [memory-bytes-pressure]");
+			System.out.println("java SystemLoad [min-cpu-usage-pressure] [max-cpu-usage-pressure] [memory-bytes-pressure]");
 		}
 	}
 
@@ -59,7 +60,7 @@ public class SystemLoad {
 		private final int minCpuLoadPercentage;
 		private final int maxCpuLoadPercentage;
 		private final byte[] memory;
-		
+
 		public BusyThread(String name, int minCpuLoadPercentage, int maxCpuLoadPercentage, byte[] memory) {
 			super(name);
 
@@ -74,7 +75,7 @@ public class SystemLoad {
 		 */
 		@Override
 		public void run() {
-			
+
 			final int cpuPressureRange = maxCpuLoadPercentage - minCpuLoadPercentage;
 
 			try {
