@@ -1,6 +1,5 @@
 # CPU Load Generator
-
-A CPU Load generator that constantly increases the CPU utilization of a machine from 1% to 100%.
+CPU Load generator that constantly increase the CPU utilization of a machine from 1% to 100%.
 Forked from [SriramKeerthi-Gist](https://gist.github.com/SriramKeerthi/0f1513a62b3b09fecaeb) and added functionality.
 
 ## Instructions to execute the program
@@ -50,7 +49,7 @@ A 1 minute load average generator that constantly increases the load average for
 Two _command-line_ arguments can be specified.
 
 * **START\_LOAD\_AVERAGE\_CORE** - TYPE: _decimal_ (default = 1/numCores). This specifies the starting value of 1min load average for a given core. This value signifies the number of processes that would be executed in the first minute.
-* **STEP\_SIZE** - TYPE: _decimal_ (default = 0.2). This specifies the increase in load average that is to be generated every minute. 
+* **STEP\_SIZE** - TYPE: _decimal_ (default = 0.2). This specifies the increase in load average that is to be generated every minute.
 
 
 Run the following command to compile.
@@ -71,4 +70,36 @@ docker run pkaushi1/cpu-loadavg-generator:latest <command>
 _Note:_ The above command is also set as the command to execute when the container is launched. So, one could just type the below command to run the load average generator.
 ```commandline
 docker run pkaushi1/cpu-loadavg-generator:latest
+```
+
+# CPU Load Generator with Memory Pressure
+Generates CPU load with Memory pressure.
+
+## Instructions to execute the program
+Three _command-line_ arguments can be specified.
+
+* **minCpuLoadPercentage** - Minimum CPU usage pressure.
+* **maxCpuLoadPercentage** - Maximum CPU usage pressure.
+* **ramUsageBytes** - RAM usage bytes.
+
+
+Run the following command to compile.
+```commandline
+javac SimulateCPULoadWithMemoryPressure.java
+```
+
+Run the following command to generate CPU load with memory pressure.
+```commandline
+java SimulateCPULoadWithMemoryPressure
+```
+
+
+## Using the dockerized application
+Use the dockerized application and run any one of the above commands,
+```commandline
+docker run pkaushi1/cpu-load-with-memory-pressure-generator:latest <command>
+```
+_Note:_ The above command is also set as the command to execute when the container is launched. So, one could just type the below command to run the load average generator.
+```commandline
+docker run pkaushi1/cpu-load-with-memory-pressure-generator:latest
 ```
