@@ -1,0 +1,54 @@
+/**
+* MIT License
+* 
+* Copyright (c) 2019 PRADYUMNA KAUSHIK
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+group 'loadGenerator'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'application'
+
+// Used by 'gradle run'.
+mainClassName = 'loadGenerator.driver.Driver'
+
+sourceCompatibility = 1.8
+
+repositories() {
+	mavenCentral()
+}
+
+ext {
+	apacheCommonsCliVersion = '1.3.1'
+}
+
+dependencies {
+	compile group: 'commons-cli', name: 'commons-cli', version: apacheCommonsCliVersion
+}
+
+jar {
+    // Remove this if you don't want the dependencies to be stored in the jar file.
+    from configurations.compile.collect {
+        dep -> zipTree(dep)
+    }
+    manifest {
+        attributes 'Main-Class': 'com.sunybingcloud.felk.FrameworkDriver'
+    }
+}
