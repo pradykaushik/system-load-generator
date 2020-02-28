@@ -1,9 +1,0 @@
-[
-	{
-		"name": "cpu-load-with-memory-pressure",
-		"cpu": 10.0,
-	       	"ram": 8192,
-		"image": "pkaushi1/cpu-load-with-memory-pressure-generator:latest",
-		"cmd": "java SimulateCPULoadWithMemoryPressure 60 80 4096"
-	}
-]

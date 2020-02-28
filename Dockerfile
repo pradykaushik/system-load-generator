@@ -1,36 +1,27 @@
 # Generate CPU load for the given number of threads and cores.
 # Generate Load Average.
 # Load.java forked from https://gist.github.com/SriramKeerthi/0f1513a62b3b09fecaeb
+# Generate CPU Load with Memory Pressure.
 
-FROM java:8
+FROM openjdk:8
+
+# Gradle Installation.
+# Cite: https://gordonlesti.com/building-a-gradle-docker-image
+# Installing v6.3 as higher versions don't seem to work.
+RUN wget -q https://services.gradle.org/distributions/gradle-6.3-bin.zip \
+    && unzip gradle-6.3-bin.zip -d /opt \
+    && rm gradle-6.3-bin.zip
+
+ENV GRADLE_HOME /opt/gradle-6.3
+ENV PATH $PATH:/opt/gradle-6.3/bin
 
 # Copying the source files into the Docker container's root directory.
 COPY . /
-# Compiling the source files for SimulateConstIncreaseCPULoad.
-# RUN javac SimulateConstIncreaseCPULoad.java
 
-# Compiling the source files for SimulateConstIncreaseLoadAverage.
-# RUN javac SimulateConstIncreaseLoadAverage.java
+# Compile.
+RUN gradle clean && gradle build
 
-# Compiling the source files for SimulateCPULoadWithMemoryPressure.
-# RUN javac SimulateCPULoadWithMemoryPressure.java
+# Default = help string.
+CMD ["-h"]
 
-# Generate CPU load with step size 1%.
-# Please note that this is a default run command.
-# Further command line arguments can be given.
-# CMD java SimulateConstIncreaseCPULoad 0.01
-
-# Generate CPU load and maintain the CPU load for the given duration (milliseconds).
-# CMD java SimulateConstIncreaseCPULoad 0.01 4000
-
-# Generate alternating CPU load, maintain it for a given duration. Using the default number of segments (2).
-# CMD java SimulateConstIncreaseCPULoad 0.01 4000 true
-
-# Generate alternating CPU load, maintain it for a given duration, and specify the number of segments.
-# CMD java SimulateConstIncreaseCPULoad 0.01 4000 true 4
-
-# Generate Load Average with LOAD_AVERAGE_LIMIT_CORE = 10.0 and STEP_SIZE = 0.2.
-# CMD java SimulateConstIncreaseLoadAverage
-
-# Generate CPU Load with Memory Pressure with CPU load in range [60,80]% and RAM usage as 4096 bytes.
-# CMD java SimulateCPULoadWithMemoryPressure 60 80 4096
+ENTRYPOINT ["./system-load-generator"]

@@ -1,0 +1,2 @@
+startLoadAverage: 0.25 # assuming quad-core machine.
+stepSize: 0.2

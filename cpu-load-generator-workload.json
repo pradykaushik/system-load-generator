@@ -1,9 +1,0 @@
-[
-	{
-		"name": "cpu-load-generator",
-		"cpu": 3.0,
-	  "ram": 4096,
-		"image": "pkaushi1/cpu-load-generator:v2",
-		"cmd": "java SimulateConstIncreaseCPULoad 0.01 4000 true 2",
-	}
-]
