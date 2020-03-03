@@ -19,10 +19,15 @@
 //LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
+package loadGenerator.strategies;
+
+import loadGenerator.util.LoadAverage;
+import loadGenerator.util.ProcessorArch;
+import loadGenerator.entities.ProcessorArchInfo;
 
 import java.util.concurrent.ExecutionException;
 
-public class SimulateConstIncreaseLoadAverage {
+public class ConstIncreaseLoadAverage implements LoadGenerationStrategy {
 	// Default value for 1min load average on each core.
 	// This means that we would start with (START_LOAD_AVERAGE_CORE * numCores) number of threads to be always running.
 	private static final double START_LOAD_AVERAGE_CORE;
@@ -36,11 +41,17 @@ public class SimulateConstIncreaseLoadAverage {
 	private static final double STEP_SIZE = 0.2;
 
 	// Setting default final value for 1min load average for each core to be 10 (total 1min load_avg = 10 * numCores).
-	// This means that load would be increased until there are 10 processes waiting to be run on each core for the minute.
+	// This means that load would be increased until there are 10 processes either running or waiting to be run on 
+	// each core for the minute.
 	private static final double LOAD_AVERAGE_LIMIT_CORE = 10.0;
 
 	// Information regarding the number of cores and the number of virtual CPUs available.
 	private static ProcessorArchInfo procArchInfo = null;
+
+	// Non-Defaults.
+	private double startLoadAvgCore;
+	private double stepSize;
+
 	static {
 		// Retrieving the processor architecture information.
 		try {
@@ -56,34 +67,32 @@ public class SimulateConstIncreaseLoadAverage {
 		START_LOAD_AVERAGE_CORE = 1.0 / procArchInfo.getNumCores();
 	}
 
-	/**
-	 * @param args Command line arguments. 
-	 * 	'startLoadAvgCore' specifying the starting value for 1min load average.
-	 * 	'stepSize' specifying the % increase in 1min load average that is to be created.
-	 */
-	public static void main(String[] args) {
-		double startLoadAvgCore = START_LOAD_AVERAGE_CORE;
-		double stepSize = STEP_SIZE;
-		switch (args.length) {
-			case 1:
-				// Using provided value for start load average.
-				startLoadAvgCore = Double.parseDouble(args[0]);
-				break;
-			case 2:
-				// Using provided values for start load average and step size.
-				startLoadAvgCore = Double.parseDouble(args[0]);
-				stepSize = Double.parseDouble(args[1]);
-				break;
-		}
-		
-		generateLoadAverage(startLoadAvgCore, stepSize);
+	public static class Builder {
+		private double startLoadAvgCore = START_LOAD_AVERAGE_CORE;
+		private double stepSize = STEP_SIZE;
 
+		public Builder withStartLoadAverageCore(double startLoadAvgCore) {
+			this.startLoadAvgCore = startLoadAvgCore;
+			return this;
+		}
+
+		public Builder withStepSize(double stepSize) {
+			this.stepSize = stepSize;
+			return this;
+		}
+
+		public ConstIncreaseLoadAverage build() {
+			return new ConstIncreaseLoadAverage(startLoadAvgCore, stepSize);
+		}
 	}
 
-	// Increases 1min load average in a step wise manner till the given limit.
-	// To create a 1min load average of X, X threads need to be running for a minute.
-	// However, to create a 1min load average of (X*100)%, (X * numCores) number of threads need to be running for a minute.
-	private static void generateLoadAverage(double startLoadAvgCore, double stepSize) {
+	private ConstIncreaseLoadAverage(double startLoadAvgCore, double stepSize) {
+		this.startLoadAvgCore = startLoadAvgCore;
+		this.stepSize = stepSize;
+	}
+
+	@Override
+	public void generate() {
 		long duration = 60000; // 1min.
 		long currentTime = System.currentTimeMillis();
 		double currentLoadAvgCore = startLoadAvgCore;

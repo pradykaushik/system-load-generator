@@ -19,6 +19,7 @@
 //LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
+package loadGenerator.util;
 
 /**
  * Generates Load on the CPU by keeping it busy for the given load percentage
@@ -26,20 +27,6 @@
  * @author Pradyumna Kaushik
  */
 public class CPULoad {
-	/**
-	 * Starts the Load Generation
-	 * @param args Command line arguments, ignored
-	 */
-	public static void main(String[] args) {
-		int numCore = 2;
-		int numThreadsPerCore = 2;
-		double load = 0.8;
-		final long duration = 100000;
-		for (int thread = 0; thread < numCore * numThreadsPerCore; thread++) {
-			new BusyThread("Thread" + thread, load, duration).start();
-		}
-	}
-
 	/**
 	 * Function to be called by a wrapper
 	 * A wrapper could be a program that determines the requirements such as,

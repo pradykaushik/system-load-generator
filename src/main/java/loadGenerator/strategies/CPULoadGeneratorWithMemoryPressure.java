@@ -19,35 +19,69 @@
 //LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
+package loadGenerator.strategies;
+
+import loadGenerator.util.ProcessorArch;
+import loadGenerator.entities.ProcessorArchInfo;
 
 import java.util.Locale;
 import java.util.Random;
 
-/**
- * Generates CPU and memory pressure
- */
-public class SimulateCPULoadWithMemoryPressure {
+public class CPULoadGeneratorWithMemoryPressure implements LoadGenerationStrategy {
 
-	public static void main(String[] args) {
+	private final int minCpuLoadPercentage;
+	private final int maxCpuLoadPercentage;
+	private final int ramUsageBytes;
+
+	public static class Builder {
+		private int minCpuLoadPercentage;
+		private int maxCpuLoadPercentage;
+		private int ramUsageBytes;
+
+		public Builder withMinCpuLoadPercentage(int minCpuLoadPercentage) {
+			this.minCpuLoadPercentage = minCpuLoadPercentage;
+			return this;
+		}
+
+		public Builder withMaxCpuLoadPercentage(int maxCpuLoadPercentage) {
+			this.maxCpuLoadPercentage = maxCpuLoadPercentage;
+			return this;
+		}
+
+		public Builder withRamUsageBytes(int ramUsageBytes) {
+			this.ramUsageBytes = ramUsageBytes;
+			return this;
+		}
+
+		public CPULoadGeneratorWithMemoryPressure build() {
+			return new CPULoadGeneratorWithMemoryPressure(minCpuLoadPercentage, maxCpuLoadPercentage, ramUsageBytes);
+		}
+	}
+
+	private CPULoadGeneratorWithMemoryPressure(int minCpuLoadPercentage, int maxCpuLoadPercentage, int ramUsageBytes) {
+		this.minCpuLoadPercentage = minCpuLoadPercentage;
+		this.maxCpuLoadPercentage = maxCpuLoadPercentage;
+		this.ramUsageBytes = ramUsageBytes;
+
+	}
+
+	@Override
+	public void generate() {
+		ProcessorArchInfo procArchInfo = null;
 		try {
-			ProcessorArchInfo procArchInfo = ProcessorArch.getProcessorArchInformation();
-			int numCore = procArchInfo.getNumCores();
-			int numThreadsPerCore = procArchInfo.getNumThreadsPerCore();
-			int minCpuLoadPercentage = Integer.parseInt(args[0]);
-			int maxCpuLoadPercentage = Integer.parseInt(args[1]);
-			int ramUsageBytes = Integer.parseInt(args[2]);
-
-			int threadsToCreate = numCore * numThreadsPerCore;
-			for (int thread = 0; thread < threadsToCreate; thread++) {
-				byte[] memory = new byte[ramUsageBytes / threadsToCreate];
-				new BusyThread("Thread-" + thread, minCpuLoadPercentage, maxCpuLoadPercentage, memory).start();
-			}
+			procArchInfo = ProcessorArch.getProcessorArchInformation();
 		} catch (Exception e) {
-			System.out.println("Failed to start!" + e.getMessage());
 			e.printStackTrace();
-			System.out.println("Usage: ");
-			System.out.println("javac CPULoadWithMemoryPressure.java");
-			System.out.println("java CPULoadWithMemoryPressure [min-cpu-usage-pressure] [max-cpu-usage-pressure] [memory-bytes-pressure]");
+			System.exit(1);
+		}
+
+		int numCores = procArchInfo.getNumThreadsPerCore();
+		int numThreadsPerCore = procArchInfo.getNumThreadsPerCore();
+		int threadsToCreate = numCores * numThreadsPerCore;
+
+		byte[] memory = new byte[ramUsageBytes / threadsToCreate];
+		for (int thread = 0; thread < threadsToCreate; thread++) {
+			new BusyThread("Thread-" + thread, minCpuLoadPercentage, maxCpuLoadPercentage, memory).start();
 		}
 	}
 
@@ -105,4 +139,5 @@ public class SimulateCPULoadWithMemoryPressure {
 			}
 		}
 	}
+
 }

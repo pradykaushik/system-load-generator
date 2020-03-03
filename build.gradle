@@ -48,7 +48,14 @@ jar {
     from configurations.compile.collect {
         dep -> zipTree(dep)
     }
+
     manifest {
-        attributes 'Main-Class': 'com.sunybingcloud.felk.FrameworkDriver'
+        attributes 'Main-Class': 'loadGenerator.driver.Driver'
     }
+}
+
+run {
+	if (project.hasProperty("lgArgs")) {
+		args Eval.me(lgArgs)
+	}
 }

@@ -1,3 +1,5 @@
+package loadGenerator.entities;
+
 public class ProcessorArchInfo {
 	private int numCores;
 	private int numThreadsPerCore;
