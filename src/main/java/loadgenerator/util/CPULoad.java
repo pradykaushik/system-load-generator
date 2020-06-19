@@ -21,7 +21,7 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-package loadGenerator.util;
+package loadgenerator.util;
 
 /**
  * Generates Load on the CPU by keeping it busy for the given load percentage

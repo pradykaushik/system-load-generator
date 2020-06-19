@@ -21,39 +21,45 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-package loadGenerator.strategies;
+package loadgenerator.strategies;
 
-import loadGenerator.util.ProcessorArch;
-import loadGenerator.entities.ProcessorArchInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Locale;
 import java.util.Random;
 
-public class CPULoadGeneratorWithMemoryPressure implements LoadGenerationStrategy {
+import loadgenerator.util.ProcessorArch;
+import loadgenerator.entities.ProcessorArchInfo;
+
+public class CPULoadGeneratorWithMemoryPressure implements LoadGenerationStrategyI {
 
 	private final int minCpuLoadPercentage;
 	private final int maxCpuLoadPercentage;
 	private final int ramUsageBytes;
 
+	@JsonIgnoreProperties(ignoreUnknown = true)
 	public static class Builder {
 		private int minCpuLoadPercentage;
 		private int maxCpuLoadPercentage;
 		private int ramUsageBytes;
 
-		public Builder withMinCpuLoadPercentage(int minCpuLoadPercentage) {
-			this.minCpuLoadPercentage = minCpuLoadPercentage;
-			return this;
+		public Builder withConfig(String configFilePath) throws IOException {
+			ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+			Builder builder;
+			try {
+				builder = mapper.readValue(new File(configFilePath), Builder.class);
+			} catch (IOException exception) {
+				throw new IOException("failed to open cpu load with memory pressure generator config file", exception);
+			}
+
+			return builder;
 		}
 
-		public Builder withMaxCpuLoadPercentage(int maxCpuLoadPercentage) {
-			this.maxCpuLoadPercentage = maxCpuLoadPercentage;
-			return this;
-		}
-
-		public Builder withRamUsageBytes(int ramUsageBytes) {
-			this.ramUsageBytes = ramUsageBytes;
-			return this;
-		}
+		public Builder() {}
 
 		public CPULoadGeneratorWithMemoryPressure build() {
 			return new CPULoadGeneratorWithMemoryPressure(minCpuLoadPercentage, maxCpuLoadPercentage, ramUsageBytes);
@@ -68,7 +74,7 @@ public class CPULoadGeneratorWithMemoryPressure implements LoadGenerationStrateg
 	}
 
 	@Override
-	public void generate() {
+	public void execute() {
 		ProcessorArchInfo procArchInfo = null;
 		try {
 			procArchInfo = ProcessorArch.getProcessorArchInformation();

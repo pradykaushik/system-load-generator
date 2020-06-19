@@ -21,7 +21,7 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-package loadGenerator.util;
+package loadgenerator.util;
 
 import java.util.Random;
 import java.util.concurrent.ExecutorService;

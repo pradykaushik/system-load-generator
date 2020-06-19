@@ -21,13 +21,20 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-package loadGenerator.driver;
+package loadgenerator.driver;
+
+import java.io.IOException;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.ParseException;
+
+import loadgenerator.strategies.factory.SimpleStrategyFactoryI;
+import loadgenerator.strategies.factory.SimpleStrategyFactory;
+import loadgenerator.strategies.factory.UnsupportedLoadTypeException;
+import loadgenerator.strategies.LoadGenerationStrategyI;
 
 public class Driver {
 	public static void main(String[] args) {
@@ -47,15 +54,26 @@ public class Driver {
 		// Printing possible command line options and exiting.
         if (commandLine.hasOption("help")) {
             HelpFormatter helpFormatter = new HelpFormatter();
-            helpFormatter.printHelp("java -jar build/libs/system-load-generator-1.0-SNAPSHOT.jar [-h]"
-                    + " --load-generator LOAD_GENERATOR_NAME --load-generator-config FILE ", CLIBuilder.getOptions());
+            helpFormatter.printHelp("java -jar build/libs/system-load-generator-<version>.jar [-h]"
+                    + " --load-type LOAD_TYPE", CLIBuilder
+					.getOptions());
             System.exit(0);
         }
 
-		String loadGenConfigFilename = commandLine.getOptionValue("load-generator-config");
-		String loadGen = commandLine.getOptionValue("load-generator");
+		String loadType = commandLine.getOptionValue("load-type");
+		SimpleStrategyFactoryI factory = new SimpleStrategyFactory();
+		LoadGenerationStrategyI loadGenerationStrategy;
+		try {
+			loadGenerationStrategy = factory.getLoadGenerationStrategy(loadType);
+			if (null != loadGenerationStrategy) {
+				loadGenerationStrategy.execute();
+			}
+		} catch (UnsupportedLoadTypeException exception) {
+			exception.printStackTrace();
+		} catch (IOException exception) {
+			exception.printStackTrace();
+		}
 
-		System.out.println(loadGen);
-		System.out.println(loadGenConfigFilename);
+		System.out.println("DONE!");
 	}
 }

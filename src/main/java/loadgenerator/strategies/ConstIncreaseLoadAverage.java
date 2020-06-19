@@ -21,15 +21,22 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-package loadGenerator.strategies;
+package loadgenerator.strategies;
 
-import loadGenerator.util.LoadAverage;
-import loadGenerator.util.ProcessorArch;
-import loadGenerator.entities.ProcessorArchInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+
+import java.io.File;
+import java.io.IOException;
+
+import loadgenerator.util.LoadAverage;
+import loadgenerator.util.ProcessorArch;
+import loadgenerator.entities.ProcessorArchInfo;
 
 import java.util.concurrent.ExecutionException;
 
-public class ConstIncreaseLoadAverage implements LoadGenerationStrategy {
+public class ConstIncreaseLoadAverage implements LoadGenerationStrategyI {
 	// Default value for 1min load average on each core.
 	// This means that we would start with (START_LOAD_AVERAGE_CORE * numCores) number of threads to be always running.
 	private static final double START_LOAD_AVERAGE_CORE;
@@ -59,7 +66,7 @@ public class ConstIncreaseLoadAverage implements LoadGenerationStrategy {
 		try {
 			procArchInfo = ProcessorArch.getProcessorArchInformation();
 		} catch (Exception e) {
-			System.err.println("Oops! Something went wrong.");
+			System.err.println("failed to obtain processor architecture information.");
 			e.printStackTrace();
 		}
 		// Printing the processor architecture information.
@@ -69,19 +76,24 @@ public class ConstIncreaseLoadAverage implements LoadGenerationStrategy {
 		START_LOAD_AVERAGE_CORE = 1.0 / procArchInfo.getNumCores();
 	}
 
+	@JsonIgnoreProperties(ignoreUnknown = true)
 	public static class Builder {
 		private double startLoadAvgCore = START_LOAD_AVERAGE_CORE;
 		private double stepSize = STEP_SIZE;
 
-		public Builder withStartLoadAverageCore(double startLoadAvgCore) {
-			this.startLoadAvgCore = startLoadAvgCore;
-			return this;
+		public Builder withConfig(String configFilePath) throws IOException {
+		    ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+		    Builder builder;
+		    try {
+		    	builder = mapper.readValue(new File(configFilePath), Builder.class);
+			} catch (IOException exception) {
+		    	throw new IOException("failed to open load average generator config file", exception);
+			}
+
+			return builder;
 		}
 
-		public Builder withStepSize(double stepSize) {
-			this.stepSize = stepSize;
-			return this;
-		}
+		public Builder() {}
 
 		public ConstIncreaseLoadAverage build() {
 			return new ConstIncreaseLoadAverage(startLoadAvgCore, stepSize);
@@ -94,7 +106,7 @@ public class ConstIncreaseLoadAverage implements LoadGenerationStrategy {
 	}
 
 	@Override
-	public void generate() {
+	public void execute() {
 		long duration = 60000; // 1min.
 		long currentTime = System.currentTimeMillis();
 		double currentLoadAvgCore = startLoadAvgCore;

@@ -21,8 +21,21 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-package loadGenerator.strategies;
+package loadgenerator.driver;
 
-public interface LoadGenerationStrategy {
-	void generate();
+public final class UsageException extends RuntimeException {
+    private String message;
+
+    public UsageException(final String message) {
+        this.message = message;
+    }
+
+    public UsageException() {
+        this.message = "Usage Error!" + "\n" + CLIBuilder.getOptions();
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
+    }
 }

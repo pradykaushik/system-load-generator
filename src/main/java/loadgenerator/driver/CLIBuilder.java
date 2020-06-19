@@ -21,7 +21,7 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-package loadGenerator.driver;
+package loadgenerator.driver;
 
 import org.apache.commons.cli.Options;
 
@@ -30,8 +30,7 @@ public final class CLIBuilder {
 
 	static {
 		// Defining command line options.
-		options.addOption("lg", "load-generator", true, "Name of the load generator");
-		options.addOption("c", "load-generator-config", true, "JSON config for load generator");
+		options.addOption("lT", "load-type", true, "Type of load to be generated");
 		options.addOption("h", "help", false, "Usage information");
 	}
 

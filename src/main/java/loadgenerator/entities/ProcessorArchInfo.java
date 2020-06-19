@@ -21,21 +21,28 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-package loadGenerator.driver;
+package loadgenerator.entities;
 
-public final class UsageException extends RuntimeException {
-    private String message;
+public class ProcessorArchInfo {
+	private int numCores;
+	private int numThreadsPerCore;
 
-    public UsageException(final String message) {
-        this.message = message;
-    }
+	public ProcessorArchInfo(int numCores, int numThreadsPerCore) {
+		this.numCores = numCores;
+		this.numThreadsPerCore = numThreadsPerCore;
+	}
 
-    public UsageException() {
-        this.message = "Usage Error!" + "\n" + CLIBuilder.getOptions();
-    }
+	public int getNumCores() {return this.numCores;}
+	public int getNumThreadsPerCore() {return this.numThreadsPerCore;}
 
-    @Override
-    public String getMessage() {
-        return message;
-    }
+	public String toString() {
+		StringBuilder sb = new StringBuilder("Processor Architecture Information\n--------------------------------\n");
+		sb.append("Total number of cores (num of cores per socket * num of sockets) = ");
+		sb.append(this.numCores);
+		sb.append("\n");
+		sb.append("Number of threads per core = ");
+		sb.append(this.numThreadsPerCore);
+		sb.append("\n");
+		return sb.toString();
+	}
 }
