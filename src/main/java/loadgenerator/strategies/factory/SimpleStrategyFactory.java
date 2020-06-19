@@ -32,18 +32,18 @@ import loadgenerator.strategies.ConstIncreaseCPULoad;
 import loadgenerator.strategies.ConstIncreaseLoadAverage;
 import loadgenerator.strategies.CPULoadGeneratorWithMemoryPressure;
 
-public class SimpleStrategyFactory implements SimpleStrategyFactoryI {
+public final class SimpleStrategyFactory implements SimpleStrategyFactoryI {
 
-    private static enum LoadType {
+    private enum LoadType {
         CPU_LOAD("cpuload", "cpuload_config.yaml"),
         LOAD_AVERAGE("loadaverage", "loadaverage_config.yaml"),
         CPU_LOAD_WITH_MEMORY_PRESSURE("cpuload_memorypressure",
                 "cpuload_memorypressure_config.yaml");
 
-        private String name;
+        private final String name;
         private final String configFilename;
 
-        LoadType(String s, String configFilename) {
+        LoadType(final String s, final String configFilename) {
             name = s;
             this.configFilename = configFilename;
         }
@@ -56,7 +56,7 @@ public class SimpleStrategyFactory implements SimpleStrategyFactoryI {
             return configFilename;
         }
 
-        static boolean isValid(String s) {
+        static boolean isValid(final String s) {
             for (LoadType loadType: values()) {
                 if (loadType.getName().equals(s)) {
                     return true;
@@ -65,7 +65,7 @@ public class SimpleStrategyFactory implements SimpleStrategyFactoryI {
             return false;
         }
 
-        static LoadType forName(String s) {
+        static LoadType forName(final String s) {
             for (LoadType loadType: values()) {
                 if (loadType.getName().equals(s)) {
                     return loadType;
@@ -76,16 +76,14 @@ public class SimpleStrategyFactory implements SimpleStrategyFactoryI {
     }
 
     private static final String PROJECT_ROOT = System.getProperty("user.dir");
-    private static Map<LoadType, LoadGenerationStrategyI> loadGenerationStrategies
-            = new HashMap<>();
 
     @Override
-    public LoadGenerationStrategyI getLoadGenerationStrategy(String loadType)
+    public LoadGenerationStrategyI getLoadGenerationStrategy(final String loadType)
             throws UnsupportedLoadTypeException, IOException {
 
         if (!LoadType.isValid(loadType)) {
-            throw new UnsupportedLoadTypeException("failed to create load generation strategy: " +
-                    "unsupported load type");
+            throw new UnsupportedLoadTypeException("failed to create load generation strategy: "
+                    + "unsupported load type");
         }
 
         switch (LoadType.forName(loadType)) {
@@ -99,7 +97,8 @@ public class SimpleStrategyFactory implements SimpleStrategyFactoryI {
                         .build();
             case CPU_LOAD_WITH_MEMORY_PRESSURE:
                 return new CPULoadGeneratorWithMemoryPressure.Builder()
-                        .withConfig(PROJECT_ROOT + "/" + LoadType.CPU_LOAD_WITH_MEMORY_PRESSURE.getConfigFilename())
+                        .withConfig(PROJECT_ROOT + "/"
+                                + LoadType.CPU_LOAD_WITH_MEMORY_PRESSURE.getConfigFilename())
                         .build();
             default:
                 return null;

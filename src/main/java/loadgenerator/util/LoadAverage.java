@@ -44,9 +44,8 @@ public class LoadAverage {
 		// Defining what each thread is going to execute.
 		Callable<String> task = () -> {
 			long currentTime = System.currentTimeMillis();
-			long endTime;
 			// Run loop for specified duration.
-			while ((endTime = System.currentTimeMillis()) < (currentTime + duration)) {
+			while (System.currentTimeMillis() < (currentTime + duration)) {
 				double a = new Random().nextDouble();
 				double b = new Random().nextDouble();
 				double quot = a/b;

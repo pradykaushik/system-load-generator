@@ -58,9 +58,3 @@ jar {
         attributes 'Main-Class': 'loadgenerator.driver.Driver'
     }
 }
-
-run {
-	if (project.hasProperty("lgArgs")) {
-		args Eval.me(lgArgs)
-	}
-}

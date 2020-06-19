@@ -37,7 +37,7 @@ import loadgenerator.strategies.factory.UnsupportedLoadTypeException;
 import loadgenerator.strategies.LoadGenerationStrategyI;
 
 public class Driver {
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		CommandLineParser commandLineParser = new DefaultParser();
 		CommandLine commandLine;
 		// Parsing command line arguments.
@@ -68,9 +68,7 @@ public class Driver {
 			if (null != loadGenerationStrategy) {
 				loadGenerationStrategy.execute();
 			}
-		} catch (UnsupportedLoadTypeException exception) {
-			exception.printStackTrace();
-		} catch (IOException exception) {
+		} catch (UnsupportedLoadTypeException | IOException exception) {
 			exception.printStackTrace();
 		}
 

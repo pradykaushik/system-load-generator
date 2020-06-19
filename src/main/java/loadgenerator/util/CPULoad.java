@@ -61,8 +61,8 @@ public class CPULoad {
 	 * @author Sriram
 	 */
 	private static class BusyThread extends Thread {
-		private double load;
-		private long duration;
+		private final double load;
+		private final long duration;
 
 		/**
 		 * Constructor which creates the thread
@@ -103,11 +103,11 @@ public class CPULoad {
 	 * @author Pradyumna Kaushik
 	 */
 	private static class AltBusyThread extends Thread {
-		private double load;
-		private long duration;
+		private final double load;
+		private final long duration;
 		// Number of times the thread needs to switch to sleep state
 		// This also represents the number of pairs of Busy:Sleep for this thread.
-		private int segments;
+		private final int segments;
 
 		/**
 		 * Constructor which creates the thread

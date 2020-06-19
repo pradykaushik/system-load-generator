@@ -24,8 +24,8 @@
 package loadgenerator.entities;
 
 public class ProcessorArchInfo {
-	private int numCores;
-	private int numThreadsPerCore;
+	private final int numCores;
+	private final int numThreadsPerCore;
 
 	public ProcessorArchInfo(int numCores, int numThreadsPerCore) {
 		this.numCores = numCores;
@@ -36,13 +36,11 @@ public class ProcessorArchInfo {
 	public int getNumThreadsPerCore() {return this.numThreadsPerCore;}
 
 	public String toString() {
-		StringBuilder sb = new StringBuilder("Processor Architecture Information\n--------------------------------\n");
-		sb.append("Total number of cores (num of cores per socket * num of sockets) = ");
-		sb.append(this.numCores);
-		sb.append("\n");
-		sb.append("Number of threads per core = ");
-		sb.append(this.numThreadsPerCore);
-		sb.append("\n");
-		return sb.toString();
+		return "Processor Architecture Information\n--------------------------------\n" + "Total number of cores (num of cores per socket * num of sockets) = " +
+				this.numCores +
+				"\n" +
+				"Number of threads per core = " +
+				this.numThreadsPerCore +
+				"\n";
 	}
 }

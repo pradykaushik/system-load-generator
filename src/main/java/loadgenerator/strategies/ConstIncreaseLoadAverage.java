@@ -58,8 +58,8 @@ public class ConstIncreaseLoadAverage implements LoadGenerationStrategyI {
 	private static ProcessorArchInfo procArchInfo = null;
 
 	// Non-Defaults.
-	private double startLoadAvgCore;
-	private double stepSize;
+	private final double startLoadAvgCore;
+	private final double stepSize;
 
 	static {
 		// Retrieving the processor architecture information.
@@ -78,7 +78,7 @@ public class ConstIncreaseLoadAverage implements LoadGenerationStrategyI {
 
 	@JsonIgnoreProperties(ignoreUnknown = true)
 	public static class Builder {
-		private double startLoadAvgCore = START_LOAD_AVERAGE_CORE;
+		private final double startLoadAvgCore = START_LOAD_AVERAGE_CORE;
 		private double stepSize = STEP_SIZE;
 
 		public Builder withConfig(String configFilePath) throws IOException {
