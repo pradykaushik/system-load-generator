@@ -16,9 +16,9 @@ The following command line arguments are supported.
     - [cpuload](./src/main/java/loadgenerator/strategies/ConstIncreaseCPULoad.java) - CPU Load generator that
         constantly increases the CPU utilization of a machine from 1% to 100%. See [cpu-load-generator](#cpu-load-generator) for more information.
     - [loadaverage](./src/main/java/loadgenerator/strategies/ConstIncreaseLoadAverage.java) - 1min load average
-        generate that constantly increases the load average. See <> for more information.
+        generate that constantly increases the load average. See [load-average-generator](#load-average-generator) for more information.
     - [cpuload_memorypressure](./src/main/java/loadgenerator/strategies/CPULoadGeneratorWithMemoryPressure.java) - 
-        Generate CPU load with memory pressure. See <> for more information.
+        Generate CPU load with memory pressure. See [cpu-load-generator-with-memory-pressure](#cpu-load-generator-with-memory-pressure) for more information.
 
 ## Load Generators
 ### CPU Load Generator
