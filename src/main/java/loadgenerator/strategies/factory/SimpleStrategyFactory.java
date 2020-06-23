@@ -24,8 +24,7 @@
 package loadgenerator.strategies.factory;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.Objects;
 
 import loadgenerator.strategies.LoadGenerationStrategyI;
 import loadgenerator.strategies.ConstIncreaseCPULoad;
@@ -76,6 +75,7 @@ public final class SimpleStrategyFactory implements SimpleStrategyFactoryI {
     }
 
     private static final String PROJECT_ROOT = System.getProperty("user.dir");
+    private static final String CONFIGS_DIRECTORY = "configs";
 
     @Override
     public LoadGenerationStrategyI getLoadGenerationStrategy(final String loadType)
@@ -86,18 +86,29 @@ public final class SimpleStrategyFactory implements SimpleStrategyFactoryI {
                     + "unsupported load type");
         }
 
-        switch (LoadType.forName(loadType)) {
+        switch (Objects.requireNonNull(LoadType.forName(loadType))) {
             case CPU_LOAD:
                 return new ConstIncreaseCPULoad.Builder()
-                        .withConfig(PROJECT_ROOT + "/" + LoadType.CPU_LOAD.getConfigFilename())
+                        .withConfig(PROJECT_ROOT
+                                + "/"
+                                + CONFIGS_DIRECTORY
+                                + "/"
+                                + LoadType.CPU_LOAD.getConfigFilename())
                         .build();
             case LOAD_AVERAGE:
                 return new ConstIncreaseLoadAverage.Builder()
-                        .withConfig(PROJECT_ROOT + "/" + LoadType.LOAD_AVERAGE.getConfigFilename())
+                        .withConfig(PROJECT_ROOT
+                                + "/"
+                                + CONFIGS_DIRECTORY
+                                + "/"
+                                + LoadType.LOAD_AVERAGE.getConfigFilename())
                         .build();
             case CPU_LOAD_WITH_MEMORY_PRESSURE:
                 return new CPULoadGeneratorWithMemoryPressure.Builder()
-                        .withConfig(PROJECT_ROOT + "/"
+                        .withConfig(PROJECT_ROOT
+                                + "/"
+                                + CONFIGS_DIRECTORY
+                                + "/"
                                 + LoadType.CPU_LOAD_WITH_MEMORY_PRESSURE.getConfigFilename())
                         .build();
             default:
