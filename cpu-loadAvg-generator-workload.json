@@ -1,9 +1,0 @@
-[
-	{
-		"name": "cpu-loadAvg-generator",
-		"cpu": 3.0,
-		"ram": 4096,
-		"image": "pkaushi1/cpu-loadavg-generator:latest",
-		"cmd": "java SimulateConstIncreaseLoadAverage",
-	}
-]
