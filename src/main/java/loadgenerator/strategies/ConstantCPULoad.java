@@ -75,13 +75,19 @@ public class ConstantCPULoad implements LoadGenerationStrategyI {
 
         public Builder() { }
 
+        public void setCpuLoad(double cpuLoad) {
+            this.cpuLoad = cpuLoad;
+        }
+        public void setDuration(int duration) {
+            this.duration = duration;
+        }
+
         public ConstantCPULoad build() {
             return new ConstantCPULoad(cpuLoad, duration);
         }
     }
 
     private ConstantCPULoad(double cpuLoad, int duration) {
-        System.out.println("inside const cpu load constructor");
         this.cpuLoad = cpuLoad;
         this.duration = duration;
     }

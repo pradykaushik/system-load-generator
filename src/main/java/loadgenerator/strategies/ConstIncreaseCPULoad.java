@@ -61,7 +61,6 @@ public class ConstIncreaseCPULoad implements LoadGenerationStrategyI {
         System.err.println(processorArchInfo);
     }
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Builder {
         private double stepSize = DEFAULT_STEP_SIZE;
         private int duration = DEFAULT_DURATION;
@@ -82,6 +81,19 @@ public class ConstIncreaseCPULoad implements LoadGenerationStrategyI {
         }
 
         public Builder() {
+        }
+
+        public void setStepSize(double stepSize) {
+            this.stepSize = stepSize;
+        }
+        public void setDuration(int duration) {
+            this.duration = duration;
+        }
+        public void setAlt(boolean isAlt) {
+            this.isAlt = isAlt;
+        }
+        public void setSegments(int segments) {
+            this.segments = segments;
         }
 
         public ConstIncreaseCPULoad build() {

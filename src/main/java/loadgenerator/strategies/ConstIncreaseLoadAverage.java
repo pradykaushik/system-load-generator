@@ -78,7 +78,7 @@ public class ConstIncreaseLoadAverage implements LoadGenerationStrategyI {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Builder {
-        private final double startLoadAvgCore = START_LOAD_AVERAGE_CORE;
+        private double startLoadAvgCore = START_LOAD_AVERAGE_CORE;
         private double stepSize = STEP_SIZE;
 
         public Builder withConfig(String configFilePath) throws IOException {
@@ -95,6 +95,9 @@ public class ConstIncreaseLoadAverage implements LoadGenerationStrategyI {
 
         public Builder() {
         }
+
+        public void setStepSize(double stepSize) { this.stepSize = stepSize; }
+        public void setStartLoadAvgCore(double startLoadAvgCore) { this.startLoadAvgCore = startLoadAvgCore; }
 
         public ConstIncreaseLoadAverage build() {
             return new ConstIncreaseLoadAverage(startLoadAvgCore, stepSize);
