@@ -30,6 +30,7 @@ import loadgenerator.strategies.LoadGenerationStrategyI;
 import loadgenerator.strategies.ConstIncreaseCPULoad;
 import loadgenerator.strategies.ConstIncreaseLoadAverage;
 import loadgenerator.strategies.CPULoadGeneratorWithMemoryPressure;
+import loadgenerator.strategies.ConstantCPULoad;
 
 public final class SimpleStrategyFactory implements SimpleStrategyFactoryI {
 
@@ -37,7 +38,8 @@ public final class SimpleStrategyFactory implements SimpleStrategyFactoryI {
         CPU_LOAD("cpuload", "cpuload_config.yaml"),
         LOAD_AVERAGE("loadaverage", "loadaverage_config.yaml"),
         CPU_LOAD_WITH_MEMORY_PRESSURE("cpuload_memorypressure",
-                "cpuload_memorypressure_config.yaml");
+                "cpuload_memorypressure_config.yaml"),
+        CONSTANT_CPU_LOAD("const_cpuload", "const_cpuload_config.yaml");
 
         private final String name;
         private final String configFilename;
@@ -110,6 +112,14 @@ public final class SimpleStrategyFactory implements SimpleStrategyFactoryI {
                                 + CONFIGS_DIRECTORY
                                 + "/"
                                 + LoadType.CPU_LOAD_WITH_MEMORY_PRESSURE.getConfigFilename())
+                        .build();
+            case CONSTANT_CPU_LOAD:
+                return new ConstantCPULoad.Builder()
+                        .withConfig(PROJECT_ROOT
+                                + "/"
+                                + CONFIGS_DIRECTORY
+                                + "/"
+                                + LoadType.CONSTANT_CPU_LOAD.getConfigFilename())
                         .build();
             default:
                 return null;
