@@ -80,5 +80,5 @@ ramUsageBytes: 2048
 ## Docker
 System Load Generator can be run in a docker container using the below command.
 ```commandline
-docker run -t pkaushi1/system-load-generator:v2 [-h | -load-type LOAD_TYPE]
+docker run -t pkaushi1/system-load-generator:v2 [-h | --load-type=LOAD_TYPE]
 ```
