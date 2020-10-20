@@ -89,7 +89,7 @@ public class ConstIncreaseCPULoad implements LoadGenerationStrategyI {
         public void setDuration(int duration) {
             this.duration = duration;
         }
-        public void setAlt(boolean isAlt) {
+        public void setIsAlt(boolean isAlt) {
             this.isAlt = isAlt;
         }
         public void setSegments(int segments) {
