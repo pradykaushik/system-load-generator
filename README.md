@@ -82,3 +82,10 @@ System Load Generator can be run in a docker container using the below command.
 ```commandline
 docker run -t pkaushi1/system-load-generator:v2 [-h | --load-type=LOAD_TYPE]
 ```
+Note that this will use the default configuration (see [configs](./configs)) for each load generation strategy.
+
+To use a different configuration, update the corresponding file in [configs](./configs) and then bindmount it to the 
+_configs/_ directory within the container using the command given below.
+```commandline
+docker run -v $PWD/configs:/configs -t pkaushi1/system-load-generator:v2 [-h | --load-type=LOAD_TYPE]
+```
