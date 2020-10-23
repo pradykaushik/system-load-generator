@@ -26,28 +26,23 @@ package loadgenerator.strategies;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import loadgenerator.entities.ProcessorArchInfo;
+import loadgenerator.util.CPULoad;
+import loadgenerator.util.ProcessorArch;
 
 import java.io.File;
 import java.io.IOException;
 
-import loadgenerator.util.CPULoad;
-import loadgenerator.util.ProcessorArch;
-import loadgenerator.entities.ProcessorArchInfo;
-
-public class ConstIncreaseCPULoad implements LoadGenerationStrategyI {
-    // Setting the default step size for increase in CPU load to be 10%.
-    private static final double DEFAULT_STEP_SIZE = 0.1;
-    // Setting default duration for the load to be 4sec.
-    private static final int DEFAULT_DURATION = 4000;
-    // Default number of segments for creating alternating CPU load.
-    private static final int DEFAULT_ALT_SEGMENTS = 2;
+public class ConstantCPULoad implements LoadGenerationStrategyI {
+    // Setting default cpu load to be 50%.
+    private static final double DEFAULT_CPU_LOAD = 0.5;
+    // Setting default duration for the load to be 60sec.
+    private static final int DEFAULT_DURATION = 60000;
     private static ProcessorArchInfo processorArchInfo = null;
 
     // Non-defaults.
-    private double stepSize = DEFAULT_STEP_SIZE;
+    private double cpuLoad = DEFAULT_CPU_LOAD;
     private int duration = DEFAULT_DURATION;
-    private boolean isAlt = false;
-    private int segments = DEFAULT_ALT_SEGMENTS;
 
     static {
         // Retrieving the processor architecture information
@@ -58,15 +53,13 @@ public class ConstIncreaseCPULoad implements LoadGenerationStrategyI {
             e.printStackTrace();
         }
         // Printing the processor architecture information
-        System.err.println(processorArchInfo);
+        System.out.println(processorArchInfo);
     }
 
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Builder {
-        private double stepSize = DEFAULT_STEP_SIZE;
+        private double cpuLoad = DEFAULT_CPU_LOAD;
         private int duration = DEFAULT_DURATION;
-        private boolean isAlt = false;
-
-        private int segments = DEFAULT_ALT_SEGMENTS;
 
         public Builder withConfig(String configFilePath) throws IOException {
             ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
@@ -80,55 +73,37 @@ public class ConstIncreaseCPULoad implements LoadGenerationStrategyI {
             return builder;
         }
 
-        public Builder() {
-        }
+        public Builder() { }
 
-        public void setStepSize(double stepSize) {
-            this.stepSize = stepSize;
+        public void setCpuLoad(double cpuLoad) {
+            this.cpuLoad = cpuLoad;
         }
         public void setDuration(int duration) {
             this.duration = duration;
         }
-        public void setIsAlt(boolean isAlt) {
-            this.isAlt = isAlt;
-        }
-        public void setSegments(int segments) {
-            this.segments = segments;
-        }
 
-        public ConstIncreaseCPULoad build() {
-            return new ConstIncreaseCPULoad(stepSize, duration, isAlt, segments);
+        public ConstantCPULoad build() {
+            return new ConstantCPULoad(cpuLoad, duration);
         }
-
     }
 
-    private ConstIncreaseCPULoad(double stepSize, int duration, boolean isAlt, int segments) {
-        this.stepSize = stepSize;
+    private ConstantCPULoad(double cpuLoad, int duration) {
+        this.cpuLoad = cpuLoad;
         this.duration = duration;
-        this.isAlt = isAlt;
-        this.segments = segments;
     }
 
-    // Constantly increase the CPU load in steps = stepSize.
-    // The CPU load is going to be simulated for the specified duration.
+    // Generate constant CPU Load of the configured amount and maintain that
+    // load for the configured duration.
     @Override
     public void execute() {
-        // Time for each a particular CPU load needs to be maintained for.
-        long currentTime = System.currentTimeMillis();
-        for (double load = stepSize; load <= 1.0; load += stepSize) {
-            System.err.println("CPU load changing to " + load);
-            CPULoad.createLoad(processorArchInfo.getNumCores(),
-                    processorArchInfo.getNumThreadsPerCore(),
-                    load,
-                    duration,
-                    isAlt,
-                    segments);
-            // Changing load only every <duration>/1000 seconds. If <duration>/1000 seconds has not elapsed, then we wait.
-            try {
-                Thread.sleep(duration);
-            } catch (InterruptedException ie) {
-                System.err.println(String.format("%d second wait has been interrupted! Next load change will happen sooner than you think.", (duration / 1000)));
-            }
-        }
+        System.out.println(String.format("Generating %f %% CPU load for %d seconds",
+                cpuLoad, duration));
+        CPULoad.createLoad(processorArchInfo.getNumCores(),
+                processorArchInfo.getNumThreadsPerCore(),
+                cpuLoad,
+                duration,
+                false,
+                0);
+        System.out.println("Done generating CPU load!");
     }
 }

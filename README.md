@@ -19,6 +19,7 @@ The following command line arguments are supported.
         generate that constantly increases the load average. See [load-average-generator](#load-average-generator) for more information.
     - [cpuload_memorypressure](./src/main/java/loadgenerator/strategies/CPULoadGeneratorWithMemoryPressure.java) - 
         Generate CPU load with memory pressure. See [cpu-load-generator-with-memory-pressure](#cpu-load-generator-with-memory-pressure) for more information.
+    - [const_cpuload](./src/main/java/loadgenerator/strategies/ConstantCPULoad.java) - Generate constant CPU load for configured duration. See [constant-cpu-load](#constant-cpu-load-generator) for more information.
 
 ## Load Generators
 ### CPU Load Generator
@@ -26,7 +27,7 @@ CPU Load generator that constantly increase the CPU utilization of a machine fro
 Forked from [SriramKeerthi-Gist](https://gist.github.com/SriramKeerthi/0f1513a62b3b09fecaeb) and added functionality.
 
 #### Configuration
-The following are the configuration parameters that are provided in the YAML config file. The configuration file
+The following are the configuration parameters that are provided in the YAML config file. The configuration file, named _cpuload\_config.yaml_,
 is to be stored in [configs](./configs) directory.
 
 * **stepSize** - TYPE: _decimal_ value in the range (0.0, 1.0). This specifies the increase in CPU load for every cycle.
@@ -47,7 +48,7 @@ segments: 2
 A 1-minute load average generator that constantly increases the load average for the past minute.
 
 #### Configuration
-The following are the configuration parameters that are provided in the YAML config file. The configuration file
+The following are the configuration parameters that are provided in the YAML config file. The configuration file, named _loadaverage\_config.yaml_,
 is to be stored in [configs](./configs) directory.
 
 * **startLoadAverageCore** - TYPE: _decimal_ (default = 1/numCores). This specifies the starting value of 1min load average for a given core. This value signifies the number of processes that would be executed in the first minute.
@@ -63,7 +64,7 @@ stepSize: 0.2
 Generate CPU load with Memory pressure.
 
 #### Configuration
-The following are the configuration parameters that are provided in the YAML config file. The configuration file
+The following are the configuration parameters that are provided in the YAML config file. The configuration file, named _cpuload\_memorypressure\_config.yaml_,
 is to be stored in [configs](./configs) directory.
 
 * **minCpuLoadPercentage** - Minimum CPU usage pressure.
@@ -77,8 +78,32 @@ maxCpuLoadPercentage: 0.6
 ramUsageBytes: 2048
 ```
 
+### Constant CPU Load Generator
+CPU Load generator that generates a constant cpu load for a set duration.
+Wraps around [SriramKeerthi-Gist](https://gist.github.com/SriramKeerthi/0f1513a62b3b09fecaeb).
+
+#### Configuration
+The following are the configuration parameters that are provided in the YAML config file. The configuration file, named _const\_cpuload\_config.yaml_,
+is to be stored in [configs](./configs) directory.
+
+* **cpuLoad** - TYPE: _decimal_. This specifies the cpu load to generate. A `cpuLoad` of 1.0 indicates 100% cpu load.
+* **duration** - TYPE: _number_. This specifies the number of milliseconds for which the CPU load needs to be maintained.
+
+Below is a sample configuration for cpu load generator.
+```yaml
+cpuLoad: 0.6
+duration: 70000
+```
+
 ## Docker
 System Load Generator can be run in a docker container using the below command.
 ```commandline
-docker run -t pkaushi1/system-load-generator:v2 [-h | -load-type LOAD_TYPE]
+docker run -t pkaushi1/system-load-generator:v2 [-h | --load-type=LOAD_TYPE]
+```
+Note that this will use the default configuration (see [configs](./configs)) for each load generation strategy.
+
+To use a different configuration, update the corresponding file in [configs](./configs) and then bindmount it to the 
+_configs/_ directory within the container using the command given below.
+```commandline
+docker run -v $PWD/configs:/configs -t pkaushi1/system-load-generator:v2 [-h | --load-type=LOAD_TYPE]
 ```

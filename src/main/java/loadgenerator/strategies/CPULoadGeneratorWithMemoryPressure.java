@@ -62,6 +62,16 @@ public class CPULoadGeneratorWithMemoryPressure implements LoadGenerationStrateg
         public Builder() {
         }
 
+        public void setMinCpuLoadPercentage(int minCpuLoadPercentage) {
+            this.minCpuLoadPercentage = minCpuLoadPercentage;
+        }
+        public void setMaxCpuLoadPercentage(int maxCpuLoadPercentage) {
+            this.maxCpuLoadPercentage = maxCpuLoadPercentage;
+        }
+        public void setRamUsageBytes(int ramUsageBytes) {
+            this.ramUsageBytes = ramUsageBytes;
+        }
+
         public CPULoadGeneratorWithMemoryPressure build() {
             return new CPULoadGeneratorWithMemoryPressure(minCpuLoadPercentage, maxCpuLoadPercentage, ramUsageBytes);
         }
