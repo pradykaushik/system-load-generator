@@ -23,6 +23,9 @@
  */
 package loadgenerator.util;
 
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  * Generates Load on the CPU by keeping it busy for the given load percentage
  * @author Sriram
@@ -44,15 +47,26 @@ public class CPULoad {
      * @param segments Number of alternating segments, for an alternating CPU load, for the specified duration.
      */
     public static void createLoad(int numCore, int numThreadsPerCore, double load,
-                                  long duration, boolean isAlt, int segments) {
+                                  long duration, boolean isAlt, int segments) throws InterruptedException {
+        List<Thread> threads = new ArrayList<>();
         if (isAlt) {
             for (int thread = 0; thread < numCore * numThreadsPerCore; thread++) {
-                new AltBusyThread("Thread" + thread, load, duration, segments).start();
+                threads.add(new AltBusyThread("Thread" + thread, load, duration, segments));
             }
         } else {
             for (int thread = 0; thread < numCore * numThreadsPerCore; thread++) {
-                new BusyThread("Thread" + thread, load, duration).start();
+                threads.add(new BusyThread("Thread" + thread, load, duration));
             }
+        }
+
+        // starting threads.
+        for (Thread thread : threads) {
+            thread.start();
+        }
+
+        // waiting for all threads to complete.
+        for (Thread thread : threads) {
+            thread.join(); // throws InterruptedException.
         }
     }
 

@@ -117,17 +117,16 @@ public class ConstIncreaseCPULoad implements LoadGenerationStrategyI {
         long currentTime = System.currentTimeMillis();
         for (double load = stepSize; load <= 1.0; load += stepSize) {
             System.err.println("CPU load changing to " + load);
-            CPULoad.createLoad(processorArchInfo.getNumCores(),
-                    processorArchInfo.getNumThreadsPerCore(),
-                    load,
-                    duration,
-                    isAlt,
-                    segments);
-            // Changing load only every <duration>/1000 seconds. If <duration>/1000 seconds has not elapsed, then we wait.
             try {
-                Thread.sleep(duration);
-            } catch (InterruptedException ie) {
-                System.err.println(String.format("%d second wait has been interrupted! Next load change will happen sooner than you think.", (duration / 1000)));
+                CPULoad.createLoad(processorArchInfo.getNumCores(),
+                        processorArchInfo.getNumThreadsPerCore(),
+                        load,
+                        duration,
+                        isAlt,
+                        segments);
+            } catch (InterruptedException e) {
+                System.err.println("interrupted! Next load change will happen sooner than you think.");
+                e.printStackTrace();
             }
         }
     }
