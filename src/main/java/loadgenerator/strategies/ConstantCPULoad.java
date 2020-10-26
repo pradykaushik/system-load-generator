@@ -98,12 +98,17 @@ public class ConstantCPULoad implements LoadGenerationStrategyI {
     public void execute() {
         System.out.println(String.format("Generating %f %% CPU load for %d seconds",
                 cpuLoad, duration));
-        CPULoad.createLoad(processorArchInfo.getNumCores(),
-                processorArchInfo.getNumThreadsPerCore(),
-                cpuLoad,
-                duration,
-                false,
-                0);
+        try {
+            CPULoad.createLoad(processorArchInfo.getNumCores(),
+                    processorArchInfo.getNumThreadsPerCore(),
+                    cpuLoad,
+                    duration,
+                    false,
+                    0);
+        } catch (InterruptedException e) {
+            System.err.println("threads generating constant cpu load interrupted!");
+            e.printStackTrace();
+        }
         System.out.println("Done generating CPU load!");
     }
 }
